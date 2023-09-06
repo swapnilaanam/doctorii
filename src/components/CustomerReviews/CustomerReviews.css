@@ -1,0 +1,22 @@
+.swiper-button-prev {
+    top: 8% !important;
+    left: 76% !important;
+    color: rgb(8, 197, 134);
+    border: 2px solid rgb(8, 197, 134);
+    border-radius: 35px;
+    padding: 30px;
+}
+
+.swiper-button-prev::after, .swiper-button-next::after {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.swiper-button-next {
+    top: 8% !important;
+    margin-right: 25px;
+    color: rgb(8, 197, 134);
+    border: 2px solid rgb(8, 197, 134);
+    border-radius: 35px;
+    padding: 30px;
+}
