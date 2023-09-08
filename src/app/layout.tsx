@@ -2,6 +2,7 @@ import AuthProvider from '@/providers/AuthProvider'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Karla } from 'next/font/google'
+import QueryProvider from '@/providers/QueryProvider'
 
 const karla = Karla({ subsets: ['latin'], weight: ["300", "400", "500", "600", "700"], variable: "--font-karla" })
 
@@ -19,7 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${karla.variable} font-karla overflow-x-hidden`}>
         <AuthProvider>
-          <div>{children}</div>
+          <QueryProvider>
+            <div>{children}</div>
+          </QueryProvider>
         </AuthProvider>
       </body>
     </html>

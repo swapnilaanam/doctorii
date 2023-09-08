@@ -1,9 +1,16 @@
-const page = () => {
+"use client"
+
+import DoctorDashboard from "@/components/DoctorDashboard/DoctorDashboard";
+import useIsDoctor from "@/hooks/useIsDoctor";
+
+const Dashboard = () => {
+    const [isDoctor, isDoctorLoading] = useIsDoctor();
+
     return (
         <div>
-            Dashboard
+            {(!isDoctorLoading && isDoctor) &&  <DoctorDashboard /> } 
         </div>
     );
 };
 
-export default page;
+export default Dashboard;

@@ -53,7 +53,6 @@ const handler = NextAuth({
     ],
     callbacks: {
         async signIn({ account, profile }) {
-            // console.log("Hello");
             if (account?.provider === 'google') {
                 try {
                     await connectDB();

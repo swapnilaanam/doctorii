@@ -8,17 +8,21 @@ type userType = {
     email: string,
     password: string,
     profilePic: string,
-    role: string
+    role: string,
+    doctorRole?: string,
+    timeSlots?: any[]
 }
 
 export const POST = async (request: NextRequest) => {
-    const { name, email, password, profilePic, role }: userType = await request.json();
+    const receivedNewUser: userType = await request.json();
 
-    const hashedPassword: string = await bcrypt.hash(password, 7);
+    const hashedPassword: string = await bcrypt.hash(receivedNewUser?.password, 7);
+
+    const updatedReceivedNewUser: userType = {...receivedNewUser, password: hashedPassword};
 
     await connectDB();
 
-    let newUser = new User({ name, email, password: hashedPassword, profilePic, role });
+    let newUser = new User(updatedReceivedNewUser);
 
     try {
         await newUser.save();

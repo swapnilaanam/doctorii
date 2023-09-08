@@ -22,7 +22,9 @@ type newUserType = {
     email: string,
     password: string,
     profilePic: string,
-    role: string
+    role: string,
+    doctorRole?: string,
+    timeSlots?: any[]
 }
 
 const Register = () => {
@@ -44,12 +46,27 @@ const Register = () => {
             const response = await axios.post(`https://api.cloudinary.com/v1_1/dgywo1wwg/image/upload`, formData,);
             imgURL = response?.data?.url;
 
-            const newUser: newUserType = {
-                name: data.name,
-                email: data.email,
-                password: data.password,
-                profilePic: imgURL,
-                role: data.role
+            let newUser: newUserType;
+
+            if (data.role === 'Doctor') {
+                newUser = {
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                    profilePic: imgURL,
+                    role: data.role,
+                    doctorRole: "Regular",
+                    timeSlots: []
+                }
+            }
+            else {
+                newUser = {
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                    profilePic: imgURL,
+                    role: data.role
+                }
             }
 
             const response2 = await axios.post('http://localhost:3000/api/auth/register', newUser);
@@ -61,7 +78,6 @@ const Register = () => {
         } catch (error) {
             console.log(error);
         }
-
     }
 
     return (
