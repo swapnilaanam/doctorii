@@ -2,7 +2,7 @@ import { connectDB } from "@/db/connectDB";
 import User from "@/models/User";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (req: NextRequest, { params }: { params: { email: string } }) => {
+export const GET = async (req: NextRequest, { params }: { params: any }) => {
     const { email } = params;
 
     try {
@@ -36,7 +36,7 @@ export const PATCH = async (req: NextRequest, { params }: { params: any }) => {
             // console.log(updatedTimeSlots);
 
             const filter = { email: email };
-            const update = { $set: { timeSlots: updatedTimeSlots }};
+            const update = { $set: { timeSlots: updatedTimeSlots } };
 
             await User.findOneAndUpdate(filter, update);
 
@@ -45,5 +45,30 @@ export const PATCH = async (req: NextRequest, { params }: { params: any }) => {
 
     } catch (error: any) {
         console.log(error.message);
+    }
+}
+
+export const DELETE = async (req: NextRequest, { params }: { params: any }) => {
+    const { email } = params;
+    const { scheduleTime } = await req.json();
+
+    try {
+        await connectDB();
+        const user = await User.findOne({ email: email });
+
+        if (user) {
+            const updatedTimeSlots = user?.timeSlots?.filter((timeSlot) => timeSlot.scheduleTime !== scheduleTime);
+            // console.log(updatedTimeSlots);
+
+            const filter = { email: email };
+            const update = { $set: { timeSlots: updatedTimeSlots } };
+
+            await User.findOneAndUpdate(filter, update);
+
+            return new NextResponse("Updated Successfully...", { status: 200 });
+        }
+
+    } catch (error: any) {
+        return new NextResponse(error?.message, {status: error?.status});;
     }
 }

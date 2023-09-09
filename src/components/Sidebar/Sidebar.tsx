@@ -1,10 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import { GrLogout, GrScheduleNew, GrSchedules } from "react-icons/gr";
 import { FaUserDoctor } from "react-icons/fa6";
+import { signOut } from "next-auth/react";
 
 const Sidebar = () => {
     return (
-        <div className="flex h-screen w-16 flex-col justify-between border-e bg-sky-500">
+        <div className="flex min-h-screen w-16 flex-col justify-between border-e bg-sky-500">
             <div>
                 <div className="inline-flex h-16 w-16 items-center justify-center">
                     <span
@@ -67,9 +70,9 @@ const Sidebar = () => {
             </div>
 
             <div className="sticky inset-x-0 bottom-0 border-t border-gray-100 bg-sky-500 p-2">
-                <form action="/logout">
+                <div>
                     <button
-                        type="submit"
+                    onClick={() => signOut()}
                         className="group relative flex w-full justify-center rounded-lg px-2 py-1.5 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
                     >
                         <GrLogout />
@@ -80,7 +83,7 @@ const Sidebar = () => {
                             Logout
                         </span>
                     </button>
-                </form>
+                </div>
             </div>
         </div>
     );

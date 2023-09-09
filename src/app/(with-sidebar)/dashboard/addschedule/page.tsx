@@ -24,15 +24,19 @@ type NewScheduleType = {
     weekDays: any[]
 };
 
+
+
 const AddSchedule = () => {
     let [isOpen, setIsOpen] = useState(false);
 
     const session = useSession();
+    const email = session?.data?.user?.email;
 
     const { data: timeSlots = [], refetch } = useQuery({
-        queryKey: ["timeSlots", session?.data?.user?.email],
+        queryKey: ["timeSlots", email],
         queryFn: async () => {
-            const response = await axios.get(`/api/users/${session?.data?.user?.email}/timeslots`);
+            const response = await axios.get(`/api/users/${email}/timeslots`);
+            // console.log(response.data);
             return response.data;
         }
     });
@@ -94,11 +98,30 @@ const AddSchedule = () => {
                     timer: 1500
                 })
             }
-            if(response?.status === 409) {
+            if (response?.status === 409) {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'error',
                     title: 'This schedule already exists...',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        } catch (error: any) {
+            console.log(error.message);
+        }
+    }
+
+    const handleDeleteSchedule = async (scheduleTime: string) => {
+        // console.log(scheduleTime);
+        try {
+            const response = await axios.delete(`/api/users/${session?.data?.user?.email}/timeslots`, { data: { scheduleTime: scheduleTime } });
+            if (response?.status === 200) {
+                refetch();
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Schedule has been removed...',
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -229,13 +252,16 @@ const AddSchedule = () => {
             <h2 className="text-2xl font-semibold text-center mt-14">Your Added Schedules</h2>
             <div className="max-w-7xl mx-auto mt-12 flex flex-wrap justify-center items-center gap-12">
                 {
-                    timeSlots.map((timeSlot, index) => {
+                    timeSlots?.map((timeSlot, index: number) => {
                         return (
                             <div key={index} className="w-96 h-64 group relative block bg-white cursor-pointer shadow-xl">
                                 <div className="relative p-4 sm:p-6 lg:p-8">
-                                    <p className="text-base font-semibold uppercase tracking-widest text-sky-600">
-                                        Slot
-                                    </p>
+                                    <div className="flex justify-between">
+                                        <p className="text-base font-semibold uppercase tracking-widest text-sky-600">
+                                            Slot
+                                        </p>
+                                        <button onClick={() => handleDeleteSchedule(timeSlot.scheduleTime)} className="bg-red-600 text-white px-4 py-1 text-lg rounded-sm">Delete</button>
+                                    </div>
 
                                     <p className="text-xl font-bold text-black sm:text-2xl">{timeSlot.scheduleTime}</p>
 
@@ -245,7 +271,7 @@ const AddSchedule = () => {
                                         >
                                             <div className="flex flex-wrap justify-center items-end gap-4">
                                                 {
-                                                    timeSlot.weekDays.map((weekDay, index) => {
+                                                    timeSlot.weekDays.map((weekDay: any[], index: number) => {
                                                         return (
                                                             <p key={index} className="text-base font-medium text-black">
                                                                 {weekDay}

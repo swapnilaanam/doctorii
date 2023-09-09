@@ -43,7 +43,7 @@ const Navbar = () => {
       session.status === 'authenticated' ? (
         <>
           <li>
-            <h2 className="ms-2 text-xl text-yellow-300 font-bold">{session?.data?.user?.name}</h2>
+            <h2 className="ms-2 text-xl text-yellow-300 font-bold">{session?.data?.user?.name?.split(" ")[0]}</h2>
           </li>
           <li>
             <button onClick={() => signOut()} className="bg-yellow-400 px-6 py-3 rounded text-xl text-black font-medium">Logout</button>
