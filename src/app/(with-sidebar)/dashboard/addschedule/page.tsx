@@ -17,11 +17,13 @@ type Inputs = {
     day4: string,
     day5: string,
     day6: string,
+    price: number
 }
 
 type NewScheduleType = {
     scheduleTime: string,
-    weekDays: any[]
+    weekDays: any[],
+    price: number
 };
 
 
@@ -35,8 +37,7 @@ const AddSchedule = () => {
     const { data: timeSlots = [], refetch } = useQuery({
         queryKey: ["timeSlots", email],
         queryFn: async () => {
-            const response = await axios.get(`/api/users/${email}/timeslots`);
-            // console.log(response.data);
+            const response = await axios.get(`/api/users/email/${email}/timeslots`);
             return response.data;
         }
     });
@@ -80,14 +81,15 @@ const AddSchedule = () => {
 
         const newSchedule: NewScheduleType = {
             scheduleTime: data.scheduleTime,
-            weekDays: weekDays
+            weekDays: weekDays,
+            price: data.price
         };
 
         reset();
         weekDays = [];
 
         try {
-            const response = await axios.patch(`/api/users/${session?.data?.user?.email}/timeslots`, newSchedule);
+            const response = await axios.patch(`/api/users/email/${email}/timeslots`, newSchedule);
             if (response?.status === 200) {
                 refetch();
                 Swal.fire({
@@ -115,7 +117,7 @@ const AddSchedule = () => {
     const handleDeleteSchedule = async (scheduleTime: string) => {
         // console.log(scheduleTime);
         try {
-            const response = await axios.delete(`/api/users/${session?.data?.user?.email}/timeslots`, { data: { scheduleTime: scheduleTime } });
+            const response = await axios.delete(`/api/users/email/${email}/timeslots`, { data: { scheduleTime: scheduleTime } });
             if (response?.status === 200) {
                 refetch();
                 Swal.fire({
@@ -200,6 +202,7 @@ const AddSchedule = () => {
                                                         <option value="9.30 PM - 10.00 PM">9.30 PM - 10.00 PM</option>
                                                         <option value="10.00 PM - 10.30 PM">10.00 PM - 10.30 PM</option>
                                                     </select>
+                                                    {errors.scheduleTime && <p className="mt-2 text-red-600">Time Slot Is Required...</p>}
                                                 </div>
                                                 <div>
                                                     <h4 className="text-base font-medium mb-2">Weekdays:</h4>
@@ -229,6 +232,18 @@ const AddSchedule = () => {
                                                         <label htmlFor="day6">Thursday</label>
                                                     </div>
                                                 </div>
+                                                <div className="mt-4">
+                                                    <label htmlFor="price" className="block text-base font-medium text-gray-900">
+                                                        Price:
+                                                    </label>
+                                                    <input
+                                                        {...register("price", { required: true })}
+                                                        type="number"
+                                                        id="price"
+                                                        className="mt-1.5 ps-2 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm py-2 border-2"
+                                                    />
+                                                    {errors.price && <p className="mt-2 text-red-600">Price Field Is Required...</p>}
+                                                </div>
                                                 <input type="submit" className="w-full cursor-pointer mt-6 bg-green-600 text-white px-6 py-1 rounded-md" />
                                             </form>
                                         </div>
@@ -252,7 +267,7 @@ const AddSchedule = () => {
             <h2 className="text-2xl font-semibold text-center mt-14">Your Added Schedules</h2>
             <div className="max-w-7xl mx-auto mt-12 flex flex-wrap justify-center items-center gap-12">
                 {
-                    timeSlots?.map((timeSlot, index: number) => {
+                    timeSlots?.map((timeSlot: NewScheduleType, index: number) => {
                         return (
                             <div key={index} className="w-96 h-64 group relative block bg-white cursor-pointer shadow-xl">
                                 <div className="relative p-4 sm:p-6 lg:p-8">
@@ -264,8 +279,9 @@ const AddSchedule = () => {
                                     </div>
 
                                     <p className="text-xl font-bold text-black sm:text-2xl">{timeSlot.scheduleTime}</p>
+                                    <p className="text-xl font-medium text-sky-600 sm:text-base mt-3 tracking-wider">Price: <strong className="ms-1">$ {timeSlot.price}</strong></p>
 
-                                    <div className="mt-6 sm:mt-12 lg:mt-20">
+                                    <div className="mt-2 sm:mt-4 lg:mt-12">
                                         <div
                                             className="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"
                                         >

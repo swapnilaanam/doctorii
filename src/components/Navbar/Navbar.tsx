@@ -39,6 +39,11 @@ const Navbar = () => {
         About Us
       </Link>
     </li>
+    <li>
+      <Link href="/dashboard" className={`${pathname === '/dashboard' ? 'text-yellow-300 text-xl font-medium' : 'text-white text-xl font-medium'}`}>
+        Dashboard
+      </Link>
+    </li>
     {
       session.status === 'authenticated' ? (
         <>

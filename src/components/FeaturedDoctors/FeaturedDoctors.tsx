@@ -1,8 +1,27 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import doctorImage from '../../../public/images/doctor.jpg';
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const FeaturedDoctors = () => {
+
+    const { data: doctors = [] } = useQuery({
+        queryKey: ["doctors"],
+        queryFn: async () => {
+            try {
+                const response = await axios.get('/api/users');
+                let doctors = response.data.filter((user) => user?.role === "Doctor");
+                doctors = doctors.splice(0, 2);
+                return doctors;
+            } catch (error: any) {
+                console.log(error?.message);
+            }
+        }
+    });
+
     return (
         <section className="relative -top-14">
             <div className="max-w-screen-xl px-4 py-8 mx-auto sm:py-12 sm:px-6 lg:px-8">
@@ -17,7 +36,7 @@ const FeaturedDoctors = () => {
                             </header>
 
                             <Link
-                                href="/"
+                                href="/doctors"
                                 className="inline-block px-12 py-3 mt-8 text-xl font-medium text-sky-600 transition bg-white border border-gray-100 rounded hover:shadow focus:outline-none focus:ring"
                             >
                                 See All Doctors
@@ -27,35 +46,25 @@ const FeaturedDoctors = () => {
 
                     <div className="lg:col-span-2 lg:py-8">
                         <ul className="grid grid-cols-2 gap-4">
-                            <li>
-                                <Link href="/" className="block group">
-                                    <Image src={doctorImage} alt="Featured Doctor" className="w-full" />
-                                    <div className="mt-3">
-                                        <h3
-                                            className="font-medium text-gray-900 group-hover:underline group-hover:underline-offset-4"
-                                        >
-                                            Simple Watch
-                                        </h3>
+                            {
+                                doctors.map((doctor) => <li key={doctor._id}>
+                                    <div className="block group cursor-pointer">
+                                        <Image src={doctorImage} alt="Featured Doctor" className="w-full" />
+                                        <div className="mt-3 flex justify-between items-center">
+                                            <div>
+                                                <h3
+                                                    className="font-medium text-gray-900"
+                                                >
+                                                    {doctor.name}
+                                                </h3>
+                                                <p>{doctor.doctorRole} Doctor</p>
+                                            </div>
 
-                                        <p className="mt-1 text-sm text-gray-700">$150</p>
+                                            <Link href={`/booking/${doctor._id}`} className="bg-yellow-400 px-4 py-2 text-lg font-medium rounded">Book Appointment</Link>
+                                        </div>
                                     </div>
-                                </Link>
-                            </li>
-
-                            <li>
-                                <Link href="#" className="block group">
-                                    <Image src={doctorImage} alt="Featured Doctor" className="w-full" />
-                                    <div className="mt-3">
-                                        <h3
-                                            className="font-medium text-gray-900 group-hover:underline group-hover:underline-offset-4"
-                                        >
-                                            Simple Watch
-                                        </h3>
-
-                                        <p className="mt-1 text-sm text-gray-700">$150</p>
-                                    </div>
-                                </Link>
-                            </li>
+                                </li>)
+                            }
                         </ul>
                     </div>
                 </div>

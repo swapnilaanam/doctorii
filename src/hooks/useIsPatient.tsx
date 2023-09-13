@@ -4,20 +4,20 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import {useQuery} from '@tanstack/react-query';
 
-const useIsDoctor = () => {
+const useIsPatient = () => {
 
     const session = useSession();
     const email = session?.data?.user?.email;
 
-    const { data: isDoctor, isLoading: isDoctorLoading } = useQuery({
-        queryKey: ['isDoctor', email],
+    const { data: isPatient, isLoading: isPatientLoading } = useQuery({
+        queryKey: ['isPatient', email],
         queryFn: async() => {
-            const response = await axios.get(`/api/users/email/${email}/doctor`)
+            const response = await axios.get(`/api/users/email/${email}/patient`)
             return response.data;
         } 
     })
 
-    return [isDoctor, isDoctorLoading];
+    return [isPatient, isPatientLoading];
 };
 
-export default useIsDoctor;
+export default useIsPatient;
