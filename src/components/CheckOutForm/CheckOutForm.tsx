@@ -11,22 +11,26 @@ const CheckOutForm = ({ appointmentInfo, price }) => {
     const [processing, setProcessing] = useState(false);
     const [transactionId, setTransactionId] = useState('');
 
+    const convertedPrice = Number(price);
+    // console.log(appointmentInfo, convertedPrice);
+
     const stripe = useStripe();
     const elements = useElements();
 
     const session = useSession();
 
     useEffect(() => {
-        if (price && price > 0) {
-            axios.post('/create-payment-intent', {
+        if (convertedPrice && convertedPrice > 0) {
+            axios.post('/api/create-payment-intent', {
                 price
             })
                 .then(res => {
+                    // console.log(res);
                     setClientSecret(res.data?.clientSecret);
                 })
                 .catch(error => console.log(error));
         }
-    }, [price]);
+    }, [convertedPrice, price]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -47,8 +51,8 @@ const CheckOutForm = ({ appointmentInfo, price }) => {
         });
 
         if (error) {
-            console.log('[error]', error);
-            setCardError(error.message);
+            console.log('[error]', error?.message);
+            setCardError(error?.message);
         } else {
             setCardError('');
             console.log('[PaymentMethod]', paymentMethod);
@@ -56,14 +60,21 @@ const CheckOutForm = ({ appointmentInfo, price }) => {
 
         setProcessing(true);
 
+        // console.log(clientSecret);
+
+        const email = session?.data?.user?.email;
+        const name = session?.data?.user?.name;
+
+        // console.log(email, name);
+
         const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
             clientSecret,
             {
                 payment_method: {
                     card: card,
                     billing_details: {
-                        email: session?.data?.user?.email || 'unknown',
-                        name: session?.data?.user?.name || 'anonymous'
+                        email: email || 'unknown',
+                        name: name || 'anonymous'
                     },
                 },
             },
@@ -84,18 +95,20 @@ const CheckOutForm = ({ appointmentInfo, price }) => {
             const payment = {
                 email: appointmentInfo?.patientEmail,
                 transactionId: paymentIntent?.id,
-                price: price,
-                data: new Date(),
+                ticketPrice: convertedPrice,
+                date: new Date(),
                 doctorEmail: appointmentInfo?.doctorEmail,
                 doctorName: appointmentInfo?.doctorName
             };
 
-            axios.post('/payments', payment)
+            axios.post('/api/payments', payment)
                 .then(res => {
-                    if (res.data.insertedId) {
-                        axios.post('/appointments', newAppointment)
+                    // console.log(res);
+                    if (res?.status === 201) {
+                        axios.post('/api/appointments', newAppointment)
                             .then(res => {
-                                if (res.data.insertedId) {
+                                // console.log(res);
+                                if (res?.status === 201) {
                                     Swal.fire({
                                         position: 'top-end',
                                         icon: 'success',
@@ -113,7 +126,7 @@ const CheckOutForm = ({ appointmentInfo, price }) => {
     }
 
     return (
-        <div className="px-4 lg:px-0">
+        <div className="max-w-5xl mx-auto px-4 lg:px-0">
             <form onSubmit={handleSubmit} id="checkoutform">
                 <CardElement
                     className="shadow-xl border-2 rounded-md"
@@ -133,7 +146,7 @@ const CheckOutForm = ({ appointmentInfo, price }) => {
                     }}
                 />
                 <div className="text-center">
-                    <button type="submit" className="btn btn-warning w-3/4 h-8 mt-8 text-lg font-semibold" disabled={!stripe || !clientSecret || processing}>
+                    <button type="submit" className="bg-blue-500 text-white w-3/4 h-10 mt-8 text-lg font-semibold rounded" disabled={!stripe || !clientSecret || processing}>
                         Pay Now
                     </button>
                 </div>

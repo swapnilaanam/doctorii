@@ -8,12 +8,14 @@ import { useState } from "react";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PAYMENT_KEY);
 
+// console.log(process.env.NEXT_PUBLIC_PAYMENT_KEY);
+
 const Payment = () => {
     const [appointmentInfo, setAppointmentInfo] = useState({});
 
     useEffect(() => {
        const newAppointment = localStorage.getItem("newAppointment");
-       console.log(newAppointment);
+    //    console.log(JSON.parse(newAppointment));
        setAppointmentInfo(JSON.parse(newAppointment));
     }, []);
 

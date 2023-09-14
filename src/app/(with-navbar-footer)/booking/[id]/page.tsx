@@ -37,7 +37,7 @@ const Booking = () => {
             if (doctor.email) {
                 const response = await axios.get(`/api/users/email/${doctor?.email}/timeslots`);
                 const schedules = response?.data?.filter((schedule) => schedule?.weekDays.includes(day))
-                console.log(schedules);
+                // console.log(schedules);
                 return schedules;
             }
         }
@@ -64,7 +64,7 @@ const Booking = () => {
 
     const handleCheckOut = async () => {
         const dd = date.getDate();
-        const mm = date.getMonth();
+        const mm = date.getMonth() + 1;
         const yyyy = date.getFullYear();
 
         const scheduleDate = `${dd}-${mm}-${yyyy}`;
