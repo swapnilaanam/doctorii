@@ -2,15 +2,17 @@
 
 import Link from "next/link";
 import { GrLogout, GrScheduleNew, GrSchedules } from "react-icons/gr";
-import { FaUserDoctor } from "react-icons/fa6";
+import { FaUserDoctor, FaUsers } from "react-icons/fa6";
 import { signOut } from "next-auth/react";
 import useIsDoctor from "@/hooks/useIsDoctor";
 import useIsPatient from "@/hooks/useIsPatient";
 import { BiHomeSmile } from "react-icons/bi";
+import useIsAdmin from "@/hooks/useIsAdmin";
 
 const Sidebar = () => {
     const [isDoctor, isDoctorLoading] = useIsDoctor();
     const [isPatient, isPatientLoading] = useIsPatient();
+    const [isAdmin, isAdminLoading] = useIsAdmin();
 
     return (
         <div className="flex min-h-screen w-16 flex-col justify-between border-e bg-sky-500">
@@ -87,6 +89,24 @@ const Sidebar = () => {
                                                 className="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100"
                                             >
                                                 Appointments
+                                            </span>
+                                        </Link>
+                                    </li>
+                                </>
+                            }
+                            {
+                                (!isAdminLoading && isAdmin) && <>
+                                    <li>
+                                        <Link
+                                            href="/dashboard/manageusers"
+                                            className="group relative flex justify-center rounded px-2 py-1.5 text-black hover:bg-gray-200 hover:text-black"
+                                        >
+                                            <FaUsers />
+
+                                            <span
+                                                className="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100"
+                                            >
+                                                Manage Users
                                             </span>
                                         </Link>
                                     </li>
