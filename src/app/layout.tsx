@@ -3,6 +3,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Karla } from 'next/font/google'
 import QueryProvider from '@/providers/QueryProvider'
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const karla = Karla({ subsets: ['latin'], weight: ["300", "400", "500", "600", "700"], variable: "--font-karla" })
 

@@ -76,7 +76,7 @@ const Login = () => {
                                 className="relative block rounded-md border-2 border-gray-200 shadow-md focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
                             >
                                 <input
-                                    type="text"
+                                    type="password"
                                     id="password"
                                     {...register("password", { required: true })}
                                     className="w-[450px] h-14 ps-2 peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
