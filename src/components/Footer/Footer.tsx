@@ -5,12 +5,6 @@ const Footer = () => {
                 <div className="text-center text-white font-semibold text-4xl">
                    Doctorii
                 </div>
-
-                <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-white">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt
-                    consequuntur amet culpa cum itaque neque.
-                </p>
-
                 <ul className="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
                     <li>
                         <a className="text-white transition hover:text-gray-700/75" href="/">

@@ -50,7 +50,7 @@ const FeaturedDoctors = () => {
                                 doctors.map((doctor) => <li key={doctor._id}>
                                     <div className="block group cursor-pointer">
                                         <Image src={doctorImage} alt="Featured Doctor" className="w-full" />
-                                        <div className="mt-3 flex justify-between items-center">
+                                        <div className="mt-4 mx-2 flex justify-between items-center">
                                             <div>
                                                 <h3
                                                     className="font-medium text-gray-900"
