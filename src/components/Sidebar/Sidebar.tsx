@@ -5,6 +5,7 @@ import { GrLogout, GrScheduleNew, GrSchedules } from "react-icons/gr";
 import { FaUserDoctor, FaUsers } from "react-icons/fa6";
 import { BiHomeSmile } from "react-icons/bi";
 import { TbReportMedical } from "react-icons/tb";
+import { IoIosPersonAdd } from "react-icons/io";
 import { signOut } from "next-auth/react";
 import useIsDoctor from "@/hooks/useIsDoctor";
 import useIsPatient from "@/hooks/useIsPatient";
@@ -122,6 +123,20 @@ const Sidebar = () => {
                                                 className="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100"
                                             >
                                                 Add Diagnosis
+                                            </span>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            href="/dashboard/addemergencydoctor"
+                                            className="group relative flex justify-center rounded px-2 py-1.5 text-black hover:bg-gray-200 hover:text-black"
+                                        >
+                                            <IoIosPersonAdd />
+
+                                            <span
+                                                className="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100"
+                                            >
+                                                Add EmergencyDoctor
                                             </span>
                                         </Link>
                                     </li>

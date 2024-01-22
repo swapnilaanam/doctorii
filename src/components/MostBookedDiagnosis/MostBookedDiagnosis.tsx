@@ -30,13 +30,15 @@ const MostBookedDiagnosis = () => {
     });
 
     return (
-        <section>
+        <section className="bg-sky-50 py-16">
             <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
                 <div
-                    className="grid grid-cols-1 gap-y-8 lg:grid-cols-2 lg:justify-between lg:items-center lg:gap-x-16"
+                    className="grid grid-cols-1 gap-y-8 lg:grid-cols-2 lg:justify-between lg:items-center"
                 >
                     <div className="mx-auto max-w-lg text-center lg:mx-0 ltr:lg:text-left rtl:lg:text-right">
-                        <h2 className="text-3xl text-sky-600 font-semibold sm:text-4xl">Most Booked Diagnosis</h2>
+                        <h2 className="text-3xl text-sky-600 font-semibold sm:text-4xl">
+                            Most Booked Diagnosis
+                        </h2>
                         <Link
                             href="/diagnosis"
                             className="mt-12 inline-block rounded bg-sky-600 px-12 py-3 text-xl font-medium text-white transition hover:bg-sky-700 focus:outline-none focus:ring focus:ring-yellow-400"
@@ -45,19 +47,19 @@ const MostBookedDiagnosis = () => {
                         </Link>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-2 gap-10">
                         {
                             diagnoses.map((diagnosis: TypeDiagnosis) => {
                                 return (
                                     <div
                                         key={diagnosis._id}
-                                        className="block rounded-xl border border-gray-100 p-4 shadow-sm hover:border-sky-500 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring text-center"
+                                        className="bg-white block rounded-xl border border-gray-100 p-4 shadow-sm hover:border-sky-500 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring text-center"
                                     >
                                         <h2 className="mt-2 font-semibold text-xl text-green-600">{diagnosis?.diagnosisName}</h2>
                                         <p className="hidden sm:mt-1 sm:block sm:text-lg sm:text-black">
                                             {diagnosis?.diagnosedArea}
                                         </p>
-                                        <div className="mt-4 flex justify-between items-center">
+                                        <div className="mt-4 flex justify-between items-center gap-2">
                                             <Link
                                                 className="inline-block rounded bg-yellow-400 px-6 py-2 text-sm font-medium text-black transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:bg-indigo-500"
                                                 href={`/diagnosis/${diagnosis._id}`}

@@ -35,11 +35,6 @@ const Navbar = () => {
       </Link>
     </li>
     <li>
-      <Link href="/aboutus" className={`${pathname === '/aboutus' ? 'text-yellow-300 text-xl font-medium' : 'text-white text-xl font-medium'}`}>
-        About Us
-      </Link>
-    </li>
-    <li>
       <Link href="/dashboard" className={`${pathname === '/dashboard' ? 'text-yellow-300 text-xl font-medium' : 'text-white text-xl font-medium'}`}>
         Dashboard
       </Link>

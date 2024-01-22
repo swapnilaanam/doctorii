@@ -11,9 +11,9 @@ export default function Home() {
   return (
     <div>
       <HomeBanner />
-      <NearByDoctors />
-      <OurServices />
       <EmergencyDoctors />
+      <OurServices />
+      <NearByDoctors />
       <FeaturedDoctors />
       <MostBookedDiagnosis />
       <Membership />

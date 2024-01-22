@@ -24,8 +24,8 @@ const FeaturedDoctors = () => {
 
     return (
         <section className="relative -top-14">
-            <div className="max-w-screen-xl px-4 py-8 mx-auto sm:py-12 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:items-stretch">
+            <div className="max-w-7xl px-4 py-8 mx-auto sm:py-12 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 gap-7 lg:grid-cols-3 lg:items-stretch">
                     <div className="grid p-6 bg-sky-600 rounded place-content-center sm:p-8">
                         <div className="max-w-md mx-auto text-center lg:text-left">
                             <header>
@@ -45,11 +45,13 @@ const FeaturedDoctors = () => {
                     </div>
 
                     <div className="lg:col-span-2 lg:py-8">
-                        <ul className="grid grid-cols-2 gap-4">
+                        <ul className="grid grid-cols-2 gap-7">
                             {
                                 doctors.map((doctor) => <li key={doctor._id}>
                                     <div className="block group cursor-pointer">
-                                        <Image src={doctorImage} alt="Featured Doctor" className="w-full" />
+                                        <div className="w-full h-96 relative">
+                                            <Image fill={true} src={doctor?.profilePic} alt="Featured Doctor" className="w-full h-full object-cover" />
+                                        </div>
                                         <div className="mt-4 mx-2 flex justify-between items-center">
                                             <div>
                                                 <h3

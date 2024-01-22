@@ -23,7 +23,7 @@ const OurServices = () => {
                 </div>
                 <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                     <div
-                        className="block rounded-xl border border-sky-600 p-7 shadow-xl transition hover:border-pink-500/10 hover:shadow-sky-200 text-center"
+                        className="hover:cursor-pointer block rounded-xl border border-sky-600 p-7 shadow-xl transition hover:border-pink-500/10 hover:shadow-sky-200 text-center"
                     >
                         <div className="flex justify-center">
                             <Lottie animationData={appointmentAnimation} loop={true} className="w-28 h-28" />
@@ -34,7 +34,7 @@ const OurServices = () => {
                         </p>
                     </div>
                     <div
-                        className="block rounded-xl border border-sky-600 p-7 shadow-xl transition hover:border-pink-500/10 hover:shadow-sky-200 text-center"
+                        className="hover:cursor-pointer block rounded-xl border border-sky-600 p-7 shadow-xl transition hover:border-pink-500/10 hover:shadow-sky-200 text-center"
                     >
                         <div className="flex justify-center">
                             <Lottie animationData={diagnosisAnimation} loop={true} className="w-28 h-28" />
@@ -45,7 +45,7 @@ const OurServices = () => {
                         </p>
                     </div>
                     <div
-                        className="block rounded-xl border border-sky-600 p-7 shadow-xl transition hover:border-pink-500/10 hover:shadow-sky-200 text-center"
+                        className="hover:cursor-pointer block rounded-xl border border-sky-600 p-7 shadow-xl transition hover:border-pink-500/10 hover:shadow-sky-200 text-center"
                     >
                         <div className="flex justify-center">
                             <Lottie animationData={emergencyAnimation} loop={true} className="w-28 h-28" />
